@@ -1,18 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import getDisplayName from "recompose/getDisplayName";
-import withState from "recompose/withState";
-import compose from "recompose/compose";
-
-const withEmailState = withState("email", "setEmail", "");
-const withPasswordState = withState("password", "setPassword", "");
 
 export default function AuthFormStateContainer(WrappedComponent) {
   const Container = props => {
-    const { email, password, setEmail, setPassword, ...restProps } = props;
+    const [ email, setEmail ] = useState('');
+    const [ password, setPassword ] = useState('');
 
     return (
       <WrappedComponent
-        {...restProps}
+        {...props}
         email={email}
         password={password}
         onEmailChange={e => setEmail(e.target.value)}
@@ -25,8 +21,5 @@ export default function AuthFormStateContainer(WrappedComponent) {
     WrappedComponent
   )}`;
 
-  return compose(
-    withEmailState,
-    withPasswordState
-  )(Container);
+  return Container;
 }
